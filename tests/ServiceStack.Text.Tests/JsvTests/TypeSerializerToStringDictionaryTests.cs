@@ -89,6 +89,16 @@ namespace ServiceStack.Text.Tests.JsvTests
 		}
 
 		[Test]
+		public void Can_serialize_and_deserialize_Dictionary_with_DateTime_key()
+		{
+			JsConfig.DateHandler = JsonDateHandler.TimestampOffset;
+			var expected = new Dictionary<DateTime, int> {{DateTime.Now, 5}};
+			var serializedString = TypeSerializer.SerializeToString(expected);
+			var actual = TypeSerializer.DeserializeFromString<Dictionary<DateTime, int>>(serializedString);
+			Assert.That(actual.EquivalentTo(expected));
+		}
+
+		[Test]
 		public void Can_serialize_Employee_to_StringDictionary()
 		{
             var actual = NorthwindData.Employees
